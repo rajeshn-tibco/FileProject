@@ -57,7 +57,7 @@
         <pd:inputBindings>
             <ns2:ActivityInput>
                 <message>
-                    <xsl:value-of select="&quot;HELLO WORLD&quot;"/>
+                    <xsl:value-of select="&quot;HELLO WORLD INDIA&quot;"/>
                 </message>
             </ns2:ActivityInput>
         </pd:inputBindings>
