@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/shipping_costs_schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:pfx3="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/shipping_costs_schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:pfx3="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/shipping_costs_schema.xsd" schemaLocation="/shipping_costs_schema.xsd"/>
     <pd:name>Calculate Shipping costs.process</pd:name>
     <pd:description/>
@@ -25,16 +25,16 @@
     <pd:endType>
         <xsd:element name="shipping_costs" type="xsd:int"/>
     </pd:endType>
-    <pd:endX>340</pd:endX>
-    <pd:endY>121</pd:endY>
+    <pd:endX>620</pd:endX>
+    <pd:endY>124</pd:endY>
     <pd:errorSchemas/>
     <pd:targetNamespace>http://xmlns.example.com/1321441023369</pd:targetNamespace>
     <pd:activity name="Parse Shipping Costs file">
         <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
         <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
         <pd:description/>
-        <pd:x>229</pd:x>
-        <pd:y>126</pd:y>
+        <pd:x>338</pd:x>
+        <pd:y>139</pd:y>
         <config>
             <validateOutput>true</validateOutput>
             <term ref="pfx:shipping_costs"/>
@@ -44,6 +44,22 @@
             <xmlString>
                 <xsl:value-of select="$Read-Shipping-costs-file/pfx2:ReadActivityOutputTextClass/fileContent/textContent"/>
             </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Log">
+        <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+        <pd:resourceType>ae.activities.log</pd:resourceType>
+        <pd:x>491</pd:x>
+        <pd:y>201</pd:y>
+        <config>
+            <role>User</role>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInput>
+                <message>
+                    <xsl:value-of select="&quot;HELLO WORLD&quot;"/>
+                </message>
+            </ns2:ActivityInput>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="Read Shipping costs file">
@@ -80,6 +96,13 @@
     </pd:transition>
     <pd:transition>
         <pd:from>Parse Shipping Costs file</pd:from>
+        <pd:to>Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Log</pd:from>
         <pd:to>End</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
